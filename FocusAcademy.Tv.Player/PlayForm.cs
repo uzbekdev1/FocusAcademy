@@ -67,8 +67,7 @@ namespace FocusAcademy.Tv.Player
             {
                 _musicPlayer.Stop();
 
-                btnPlay.Enabled = true;
-                btnStop.Enabled = btnPause.Enabled = false;
+                btnPlay.Enabled = btnStop.Enabled = btnPause.Enabled = false;
             }
         }
 
@@ -85,7 +84,7 @@ namespace FocusAcademy.Tv.Player
                 length != TimeSpan.Zero && position != TimeSpan.Zero)
             {
                 var perc = position.TotalMilliseconds / length.TotalMilliseconds * trackBar1.Maximum;
-                trackBar1.Value = (int) perc;
+                trackBar1.Value = (int)perc;
             }
         }
 
@@ -105,7 +104,7 @@ namespace FocusAcademy.Tv.Player
         {
             if (_stopSliderUpdate)
             {
-                var perc = trackBar1.Value / (double) trackBar1.Maximum;
+                var perc = trackBar1.Value / (double)trackBar1.Maximum;
                 var position = TimeSpan.FromMilliseconds(_musicPlayer.Length.TotalMilliseconds * perc);
                 _musicPlayer.Position = position;
             }
@@ -119,6 +118,6 @@ namespace FocusAcademy.Tv.Player
         {
             _musicPlayer.Volume = trackbarVolume.Value;
         }
-         
+
     }
 }

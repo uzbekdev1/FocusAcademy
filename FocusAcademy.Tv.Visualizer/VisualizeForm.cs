@@ -25,6 +25,8 @@ namespace FocusAcademy.Tv.Visualizer
         public VisualizeForm()
         {
             InitializeComponent();
+
+            drawPitchShiftTool();
         }
 
         public VisualizeForm(string title) : this()
@@ -155,44 +157,29 @@ namespace FocusAcademy.Tv.Visualizer
             }
         }
 
-        private void pitchShiftToolStripMenuItem_Click(object sender, EventArgs e)
+        private void drawPitchShiftTool()
         {
             var value = (int) (_pitchShifter != null
                 ? Math.Log10(_pitchShifter.PitchShiftFactor) / Math.Log10(2) * 120
-                : 0);
-            var form = new Form
-            {
-                Width = 300,
-                Height = 60,
-                Text = value.ToString(),
-                MaximizeBox = false,
-                MinimizeBox = false,
-                SizeGripStyle = SizeGripStyle.Hide,
-                ShowIcon = false,
-                FormBorderStyle = FormBorderStyle.FixedToolWindow
-            };
+                : 0); 
             var trackBar = new TrackBar
             {
                 TickStyle = TickStyle.None,
                 Minimum = -100,
                 Maximum = 100,
                 Value = value,
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Bottom
             };
             trackBar.ValueChanged += (s, args) =>
             {
                 if (_pitchShifter != null)
                 {
                     _pitchShifter.PitchShiftFactor = (float) Math.Pow(2, trackBar.Value / 120.0);
-
-                    form.Text = trackBar.Value.ToString();
                 }
             };
-            form.Controls.Add(trackBar);
 
-            form.ShowDialog();
-
-            form.Dispose();
+            groupBox1.Controls.Add(trackBar);
+             
         }
     }
 }

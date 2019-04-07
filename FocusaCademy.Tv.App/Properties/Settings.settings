@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="FocusAcademy.Tv.App.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SourceFolder" Type="System.String" Scope="Application">
+    <Setting Name="SourceFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">./test</Value>
     </Setting>
-    <Setting Name="AutoAsync" Type="System.Boolean" Scope="Application">
+    <Setting Name="AutoAsync" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
