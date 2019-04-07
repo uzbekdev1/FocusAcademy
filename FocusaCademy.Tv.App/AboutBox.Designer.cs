@@ -27,6 +27,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.logoPictureBox = new System.Windows.Forms.PictureBox();
             this.labelProductName = new System.Windows.Forms.Label();
@@ -69,7 +70,7 @@
             // 
             this.logoPictureBox.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.logoPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.logoPictureBox.Image = global::FocusAcademy.Tv.App.Properties.Resources.logo;
+            this.logoPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("logoPictureBox.Image")));
             this.logoPictureBox.Location = new System.Drawing.Point(4, 5);
             this.logoPictureBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.logoPictureBox.Name = "logoPictureBox";
@@ -145,10 +146,10 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(468, 329);
+            this.okButton.Location = new System.Drawing.Point(480, 329);
             this.okButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(112, 27);
+            this.okButton.Size = new System.Drawing.Size(100, 27);
             this.okButton.TabIndex = 24;
             this.okButton.Text = "&OK";
             // 

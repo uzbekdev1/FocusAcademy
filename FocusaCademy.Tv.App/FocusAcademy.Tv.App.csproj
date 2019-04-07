@@ -39,8 +39,6 @@
     <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,7 +50,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -133,7 +130,7 @@
       <Name>FocusAcademy.Tv.Player</Name>
     </ProjectReference>
     <ProjectReference Include="..\FocusAcademy.Tv.Visualizer\FocusAcademy.Tv.Visualizer.csproj">
-      <Project>{529deb01-14a3-4fec-ad89-6d4d0dc433c3}</Project>
+      <Project>{e220eede-27b1-4efa-98f7-4eb36b9bc4a4}</Project>
       <Name>FocusAcademy.Tv.Visualizer</Name>
     </ProjectReference>
   </ItemGroup>

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FocusAcademy.Tv.Player;
-using FocusAcademy.Tv.Waveform;
+using FocusAcademy.Tv.Visualizer;
 
 namespace FocusAcademy.Tv.App
 {
@@ -27,11 +27,12 @@ namespace FocusAcademy.Tv.App
 
         private async void visualizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new WaveWindow("file1.mp3");
+            var form = new VisualizeForm("file1.mp3");
             var fileName = Path.Combine(Environment.CurrentDirectory, "test", "file1.mp3");
+
             form.Show();
 
-            await form.OpenFile(fileName);
+            form.OpenFile(fileName);
         }
 
         private void playToolStripMenuItem_Click(object sender, EventArgs e)

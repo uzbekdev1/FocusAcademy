@@ -12,7 +12,7 @@ namespace FocusAcademy.Tv.Player
         private ISoundOut _soundOut;
         private IWaveSource _waveSource;
 
-		public event EventHandler<PlaybackStoppedEventArgs> PlaybackStopped;
+        public event EventHandler<PlaybackStoppedEventArgs> PlaybackStopped;
 
         public PlaybackState PlaybackState
         {
@@ -66,7 +66,7 @@ namespace FocusAcademy.Tv.Player
             }
         }
 
-        public void Open(string filename, MMDevice device)
+        private void Open(string filename, MMDevice device)
         {
             CleanupPlayback();
 
@@ -75,9 +75,23 @@ namespace FocusAcademy.Tv.Player
                     .ToSampleSource()
                     .ToMono()
                     .ToWaveSource();
-            _soundOut = new WasapiOut() {Latency = 100, Device = device};
+
+            if (device != null)
+            {
+                _soundOut = new WasapiOut() { Latency = 100, Device = device };
+            }
+            else
+            {
+                _soundOut = new WasapiOut() { Latency = 100 };
+            }
+
             _soundOut.Initialize(_waveSource);
-			if (PlaybackStopped != null) _soundOut.Stopped += PlaybackStopped;
+            if (PlaybackStopped != null) _soundOut.Stopped += PlaybackStopped;
+        }
+
+        public void Open(string filename)
+        {
+            Open(filename, null);
         }
 
         public void Play()

@@ -11,7 +11,6 @@ namespace FocusAcademy.Tv.Player
     {
         private readonly MusicPlayer _musicPlayer = new MusicPlayer();
         private bool _stopSliderUpdate;
-        private readonly ObservableCollection<MMDevice> _devices = new ObservableCollection<MMDevice>();
 
         public PlayForm()
         {
@@ -20,6 +19,8 @@ namespace FocusAcademy.Tv.Player
 
         public PlayForm(string title) : this()
         {
+            Text = title;
+
             components = new Container();
             components.Add(_musicPlayer);
             _musicPlayer.PlaybackStopped += (s, args) =>
@@ -33,13 +34,13 @@ namespace FocusAcademy.Tv.Player
 
         public void OpenFile(string fileName)
         {
-            _musicPlayer.Open(fileName, (MMDevice)comboBox1.SelectedItem);
+            _musicPlayer.Open(fileName);
             trackbarVolume.Value = _musicPlayer.Volume;
 
             btnPlay.Enabled = true;
             btnPause.Enabled = btnStop.Enabled = false;
 
-            btnPlay_Click(null,null);
+            btnPlay_Click(null, null);
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
@@ -67,7 +68,9 @@ namespace FocusAcademy.Tv.Player
             if (_musicPlayer.PlaybackState != PlaybackState.Stopped)
             {
                 _musicPlayer.Stop();
-                btnPlay.Enabled = btnStop.Enabled = btnPause.Enabled = false;
+
+                btnPlay.Enabled = true;
+                btnStop.Enabled = btnPause.Enabled = false;
             }
         }
 
@@ -112,21 +115,6 @@ namespace FocusAcademy.Tv.Player
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            using (var mmdeviceEnumerator = new MMDeviceEnumerator())
-            {
-                using (
-                    var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
-                {
-                    foreach (var device in mmdeviceCollection)
-                    {
-                        _devices.Add(device);
-                    }
-                }
-            }
-
-            comboBox1.DataSource = _devices;
-            comboBox1.DisplayMember = "FriendlyName";
-            comboBox1.ValueMember = "DeviceID";
         }
 
         private void trackbarVolume_ValueChanged(object sender, EventArgs e)

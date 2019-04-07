@@ -56,9 +56,9 @@
             // 
             this.button1.Location = new System.Drawing.Point(445, 37);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(41, 29);
+            this.button1.Size = new System.Drawing.Size(100, 27);
             this.button1.TabIndex = 2;
-            this.button1.Text = "...";
+            this.button1.Text = "Browse ...";
             this.button1.UseVisualStyleBackColor = true;
             // 
             // button2
@@ -66,7 +66,7 @@
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Location = new System.Drawing.Point(547, 123);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 36);
+            this.button2.Size = new System.Drawing.Size(100, 27);
             this.button2.TabIndex = 3;
             this.button2.Text = "Apply";
             this.button2.UseVisualStyleBackColor = true;

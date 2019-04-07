@@ -61,16 +61,16 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(91, 12);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(400, 26);
+            this.textBox1.Size = new System.Drawing.Size(375, 26);
             this.textBox1.TabIndex = 1;
             this.textBox1.Text = "*.mp3";
             // 
             // fetchBtn
             // 
             this.fetchBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.fetchBtn.Location = new System.Drawing.Point(497, 11);
+            this.fetchBtn.Location = new System.Drawing.Point(472, 12);
             this.fetchBtn.Name = "fetchBtn";
-            this.fetchBtn.Size = new System.Drawing.Size(75, 29);
+            this.fetchBtn.Size = new System.Drawing.Size(100, 27);
             this.fetchBtn.TabIndex = 2;
             this.fetchBtn.Text = "Fetch";
             this.fetchBtn.UseVisualStyleBackColor = true;
@@ -120,37 +120,37 @@
             this.locationToolStripMenuItem,
             this.deleteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 120);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(121, 98);
             // 
             // playToolStripMenuItem
             // 
             this.playToolStripMenuItem.Name = "playToolStripMenuItem";
-            this.playToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.playToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.playToolStripMenuItem.Text = "Play";
             this.playToolStripMenuItem.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
             // visualizeToolStripMenuItem
             // 
             this.visualizeToolStripMenuItem.Name = "visualizeToolStripMenuItem";
-            this.visualizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.visualizeToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.visualizeToolStripMenuItem.Text = "Visualize";
             this.visualizeToolStripMenuItem.Click += new System.EventHandler(this.visualizeToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(117, 6);
             // 
             // locationToolStripMenuItem
             // 
             this.locationToolStripMenuItem.Name = "locationToolStripMenuItem";
-            this.locationToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.locationToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.locationToolStripMenuItem.Text = "Location";
             // 
             // deleteToolStripMenuItem
             // 
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.deleteToolStripMenuItem.Text = "Delete";
             // 
             // SearchForm
