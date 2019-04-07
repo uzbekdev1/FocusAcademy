@@ -1,7 +1,8 @@
+- Go to menu bar tools/options menu item
 - Choose source folder 
 - Check/uncheck async caching
 - Apply  button
-- Go to home search menu item
+- Go to menu bar help/search menu item
 - By default loaded all *.mp3 files
 - Right mouse Click ,choose any option
 
