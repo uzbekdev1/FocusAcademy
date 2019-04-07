@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel;
 using CSCore;
 using CSCore.Codecs;
-using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 
 namespace FocusAcademy.Tv.Player
@@ -11,8 +10,6 @@ namespace FocusAcademy.Tv.Player
     {
         private ISoundOut _soundOut;
         private IWaveSource _waveSource;
-
-        public event EventHandler<PlaybackStoppedEventArgs> PlaybackStopped;
 
         public PlaybackState PlaybackState
         {
@@ -54,19 +51,18 @@ namespace FocusAcademy.Tv.Player
             get
             {
                 if (_soundOut != null)
-                    return Math.Min(100, Math.Max((int)(_soundOut.Volume * 100), 0));
+                    return Math.Min(100, Math.Max((int) (_soundOut.Volume * 100), 0));
                 return 100;
             }
             set
             {
-                if (_soundOut != null)
-                {
-                    _soundOut.Volume = Math.Min(1.0f, Math.Max(value / 100f, 0f));
-                }
+                if (_soundOut != null) _soundOut.Volume = Math.Min(1.0f, Math.Max(value / 100f, 0f));
             }
         }
 
-        private void Open(string filename, MMDevice device)
+        public event EventHandler<PlaybackStoppedEventArgs> PlaybackStopped;
+
+        public void Open(string filename)
         {
             CleanupPlayback();
 
@@ -76,22 +72,13 @@ namespace FocusAcademy.Tv.Player
                     .ToMono()
                     .ToWaveSource();
 
-            if (device != null)
-            {
-                _soundOut = new WasapiOut() { Latency = 100, Device = device };
-            }
+            if (WasapiOut.IsSupportedOnCurrentPlatform)
+                _soundOut = new WasapiOut {Latency = 100};
             else
-            {
-                _soundOut = new WasapiOut() { Latency = 100 };
-            }
+                _soundOut = new DirectSoundOut {Latency = 100};
 
             _soundOut.Initialize(_waveSource);
             if (PlaybackStopped != null) _soundOut.Stopped += PlaybackStopped;
-        }
-
-        public void Open(string filename)
-        {
-            Open(filename, null);
         }
 
         public void Play()
@@ -119,6 +106,7 @@ namespace FocusAcademy.Tv.Player
                 _soundOut.Dispose();
                 _soundOut = null;
             }
+
             if (_waveSource != null)
             {
                 _waveSource.Dispose();

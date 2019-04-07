@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using CSCore;
 using CSCore.Codecs;
 using CSCore.DSP;
-using CSCore.SoundIn;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
@@ -15,14 +14,12 @@ namespace FocusAcademy.Tv.Visualizer
 {
     public partial class VisualizeForm : Form
     {
-        private WasapiCapture _soundIn;
+        private readonly Bitmap _bitmap = new Bitmap(2000, 600);
+        private LineSpectrum _lineSpectrum;
+        private PitchShifter _pitchShifter;
         private ISoundOut _soundOut;
         private IWaveSource _source;
-        private PitchShifter _pitchShifter;
-        private LineSpectrum _lineSpectrum;
         private VoicePrint3DSpectrum _voicePrint3DSpectrum;
-
-        private readonly Bitmap _bitmap = new Bitmap(2000, 600);
         private int _xpos;
 
         public VisualizeForm()
@@ -37,7 +34,6 @@ namespace FocusAcademy.Tv.Visualizer
 
         public void OpenFile(string fileName)
         {
-
             //open the selected file
             ISampleSource source = CodecFactory.Instance.GetCodec(fileName)
                 .ToSampleSource()
@@ -46,7 +42,11 @@ namespace FocusAcademy.Tv.Visualizer
             SetupSampleSource(source);
 
             //play the audio
-            _soundOut = new WasapiOut();
+            if (WasapiOut.IsSupportedOnCurrentPlatform)
+                _soundOut = new WasapiOut();
+            else
+                _soundOut = new DirectSoundOut();
+
             _soundOut.Initialize(_source);
             _soundOut.Play();
 
@@ -57,7 +57,6 @@ namespace FocusAcademy.Tv.Visualizer
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="aSampleSource"></param>
         private void SetupSampleSource(ISampleSource aSampleSource)
@@ -93,7 +92,6 @@ namespace FocusAcademy.Tv.Visualizer
             notificationSource.SingleBlockRead += (s, a) => spectrumProvider.Add(a.Left, a.Right);
 
             _source = notificationSource.ToWaveSource(16);
-
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -112,19 +110,12 @@ namespace FocusAcademy.Tv.Visualizer
                 _soundOut.Dispose();
                 _soundOut = null;
             }
-            if (_soundIn != null)
-            {
-                _soundIn.Stop();
-                _soundIn.Dispose();
-                _soundIn = null;
-            }
+
             if (_source != null)
             {
                 _source.Dispose();
                 _source = null;
             }
-
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -136,8 +127,9 @@ namespace FocusAcademy.Tv.Visualizer
 
         private void GenerateLineSpectrum()
         {
-            Image image = pictureBoxTop.Image;
-            var newImage = _lineSpectrum.CreateSpectrumLine(pictureBoxTop.Size, Color.Green, Color.Red, Color.Black, true);
+            var image = pictureBoxTop.Image;
+            var newImage =
+                _lineSpectrum.CreateSpectrumLine(pictureBoxTop.Size, Color.Green, Color.Red, Color.Black, true);
             if (newImage != null)
             {
                 pictureBoxTop.Image = newImage;
@@ -148,7 +140,7 @@ namespace FocusAcademy.Tv.Visualizer
 
         private void GenerateVoice3DPrintSpectrum()
         {
-            using (Graphics g = Graphics.FromImage(_bitmap))
+            using (var g = Graphics.FromImage(_bitmap))
             {
                 pictureBoxBottom.Image = null;
                 if (_voicePrint3DSpectrum.CreateVoicePrint3D(g, new RectangleF(0, 0, _bitmap.Width, _bitmap.Height),
@@ -158,16 +150,17 @@ namespace FocusAcademy.Tv.Visualizer
                     if (_xpos >= _bitmap.Width)
                         _xpos = 0;
                 }
+
                 pictureBoxBottom.Image = _bitmap;
             }
         }
 
         private void pitchShiftToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var value = (int)(_pitchShifter != null
+            var value = (int) (_pitchShifter != null
                 ? Math.Log10(_pitchShifter.PitchShiftFactor) / Math.Log10(2) * 120
                 : 0);
-            var form = new Form()
+            var form = new Form
             {
                 Width = 300,
                 Height = 60,
@@ -178,7 +171,7 @@ namespace FocusAcademy.Tv.Visualizer
                 ShowIcon = false,
                 FormBorderStyle = FormBorderStyle.FixedToolWindow
             };
-            var trackBar = new TrackBar()
+            var trackBar = new TrackBar
             {
                 TickStyle = TickStyle.None,
                 Minimum = -100,
@@ -190,7 +183,7 @@ namespace FocusAcademy.Tv.Visualizer
             {
                 if (_pitchShifter != null)
                 {
-                    _pitchShifter.PitchShiftFactor = (float)Math.Pow(2, trackBar.Value / 120.0);
+                    _pitchShifter.PitchShiftFactor = (float) Math.Pow(2, trackBar.Value / 120.0);
 
                     form.Text = trackBar.Value.ToString();
                 }

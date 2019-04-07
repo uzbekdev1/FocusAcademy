@@ -11,7 +11,6 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
     {
         private int _barCount;
         private double _barSpacing;
-        private double _barWidth;
         private Size _currentSize;
 
         public LineSpectrum(FftSize fftSize)
@@ -19,11 +18,7 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
             FftSize = fftSize;
         }
 
-        [Browsable(false)]
-        public double BarWidth
-        {
-            get { return _barWidth; }
-        }
+        [Browsable(false)] public double BarWidth { get; private set; }
 
         public double BarSpacing
         {
@@ -76,12 +71,11 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
 
             //get the fft result from the spectrum provider
             if (SpectrumProvider.GetFftData(fftBuffer, this))
-            {
-                using (var pen = new Pen(brush, (float) _barWidth))
+                using (var pen = new Pen(brush, (float) BarWidth))
                 {
                     var bitmap = new Bitmap(size.Width, size.Height);
 
-                    using (Graphics graphics = Graphics.FromImage(bitmap))
+                    using (var graphics = Graphics.FromImage(bitmap))
                     {
                         PrepareGraphics(graphics, highQuality);
                         graphics.Clear(background);
@@ -91,7 +85,7 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
 
                     return bitmap;
                 }
-            }
+
             return null;
         }
 
@@ -101,7 +95,7 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
                 return null;
 
             using (
-                Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float) _barWidth, size.Height), color2,
+                Brush brush = new LinearGradientBrush(new RectangleF(0, 0, (float) BarWidth, size.Height), color2,
                     color1, LinearGradientMode.Vertical))
             {
                 return CreateSpectrumLine(size, brush, background, highQuality);
@@ -110,16 +104,16 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
 
         private void CreateSpectrumLineInternal(Graphics graphics, Pen pen, float[] fftBuffer, Size size)
         {
-            int height = size.Height;
+            var height = size.Height;
             //prepare the fft result for rendering 
-            SpectrumPointData[] spectrumPoints = CalculateSpectrumPoints(height, fftBuffer);
+            var spectrumPoints = CalculateSpectrumPoints(height, fftBuffer);
 
             //connect the calculated points with lines
-            for (int i = 0; i < spectrumPoints.Length; i++)
+            for (var i = 0; i < spectrumPoints.Length; i++)
             {
-                SpectrumPointData p = spectrumPoints[i];
-                int barIndex = p.SpectrumPointIndex;
-                double xCoord = BarSpacing * (barIndex + 1) + (_barWidth * barIndex) + _barWidth / 2;
+                var p = spectrumPoints[i];
+                var barIndex = p.SpectrumPointIndex;
+                var xCoord = BarSpacing * (barIndex + 1) + BarWidth * barIndex + BarWidth / 2;
 
                 var p1 = new PointF((float) xCoord, height);
                 var p2 = new PointF((float) xCoord, height - (float) p.Value - 1);
@@ -130,7 +124,7 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
 
         protected override void UpdateFrequencyMapping()
         {
-            _barWidth = Math.Max(((_currentSize.Width - (BarSpacing * (BarCount + 1))) / BarCount), 0.00001);
+            BarWidth = Math.Max((_currentSize.Width - BarSpacing * (BarCount + 1)) / BarCount, 0.00001);
             base.UpdateFrequencyMapping();
         }
 

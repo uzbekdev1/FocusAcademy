@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
-using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
 
 namespace FocusAcademy.Tv.Player
@@ -76,18 +74,18 @@ namespace FocusAcademy.Tv.Player
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TimeSpan position = _musicPlayer.Position;
-            TimeSpan length = _musicPlayer.Length;
+            var position = _musicPlayer.Position;
+            var length = _musicPlayer.Length;
             if (position > length)
                 length = position;
 
-            lblPosition.Text = String.Format(@"{0:mm\:ss} / {1:mm\:ss}", position, length);
+            lblPosition.Text = string.Format(@"{0:mm\:ss} / {1:mm\:ss}", position, length);
 
             if (!_stopSliderUpdate &&
                 length != TimeSpan.Zero && position != TimeSpan.Zero)
             {
-                double perc = position.TotalMilliseconds / length.TotalMilliseconds * trackBar1.Maximum;
-                trackBar1.Value = (int)perc;
+                var perc = position.TotalMilliseconds / length.TotalMilliseconds * trackBar1.Maximum;
+                trackBar1.Value = (int) perc;
             }
         }
 
@@ -107,8 +105,8 @@ namespace FocusAcademy.Tv.Player
         {
             if (_stopSliderUpdate)
             {
-                double perc = trackBar1.Value / (double)trackBar1.Maximum;
-                TimeSpan position = TimeSpan.FromMilliseconds(_musicPlayer.Length.TotalMilliseconds * perc);
+                var perc = trackBar1.Value / (double) trackBar1.Maximum;
+                var position = TimeSpan.FromMilliseconds(_musicPlayer.Length.TotalMilliseconds * perc);
                 _musicPlayer.Position = position;
             }
         }
@@ -121,10 +119,6 @@ namespace FocusAcademy.Tv.Player
         {
             _musicPlayer.Volume = trackbarVolume.Value;
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+         
     }
 }

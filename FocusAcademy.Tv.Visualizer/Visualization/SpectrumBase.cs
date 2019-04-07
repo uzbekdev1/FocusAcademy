@@ -13,7 +13,7 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
         protected const int ScaleFactorSqr = 2;
         protected const double MinDbValue = -90;
         protected const double MaxDbValue = 0;
-        protected const double DbScale = (MaxDbValue - MinDbValue);
+        protected const double DbScale = MaxDbValue - MinDbValue;
 
         private int _fftSize;
         private bool _isXLogScale;
@@ -26,9 +26,9 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
         private int[] _spectrumIndexMax;
         private int[] _spectrumLogScaleIndexMax;
         private ISpectrumProvider _spectrumProvider;
+        private bool _useAverage;
 
         protected int SpectrumResolution;
-        private bool _useAverage;
 
         public int MaximumFrequency
         {
@@ -36,10 +36,8 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
             set
             {
                 if (value <= MinimumFrequency)
-                {
                     throw new ArgumentOutOfRangeException("value",
                         "Value must not be less or equal the MinimumFrequency.");
-                }
                 _maximumFrequency = value;
                 UpdateFrequencyMapping();
 
@@ -129,19 +127,19 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
             _maximumFrequencyIndex = Math.Min(_spectrumProvider.GetFftBandIndex(MaximumFrequency) + 1, _maxFftIndex);
             _minimumFrequencyIndex = Math.Min(_spectrumProvider.GetFftBandIndex(MinimumFrequency), _maxFftIndex);
 
-            int actualResolution = SpectrumResolution;
+            var actualResolution = SpectrumResolution;
 
-            int indexCount = _maximumFrequencyIndex - _minimumFrequencyIndex;
-            double linearIndexBucketSize = Math.Round(indexCount / (double) actualResolution, 3);
+            var indexCount = _maximumFrequencyIndex - _minimumFrequencyIndex;
+            var linearIndexBucketSize = Math.Round(indexCount / (double) actualResolution, 3);
 
             _spectrumIndexMax = _spectrumIndexMax.CheckBuffer(actualResolution, true);
             _spectrumLogScaleIndexMax = _spectrumLogScaleIndexMax.CheckBuffer(actualResolution, true);
 
-            double maxLog = Math.Log(actualResolution, actualResolution);
-            for (int i = 1; i < actualResolution; i++)
+            var maxLog = Math.Log(actualResolution, actualResolution);
+            for (var i = 1; i < actualResolution; i++)
             {
-                int logIndex =
-                    (int) ((maxLog - Math.Log((actualResolution + 1) - i, (actualResolution + 1))) * indexCount) +
+                var logIndex =
+                    (int) ((maxLog - Math.Log(actualResolution + 1 - i, actualResolution + 1)) * indexCount) +
                     _minimumFrequencyIndex;
 
                 _spectrumIndexMax[i - 1] = _minimumFrequencyIndex + (int) (i * linearIndexBucketSize);
@@ -149,10 +147,8 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
             }
 
             if (actualResolution > 0)
-            {
                 _spectrumIndexMax[_spectrumIndexMax.Length - 1] =
                     _spectrumLogScaleIndexMax[_spectrumLogScaleIndexMax.Length - 1] = _maximumFrequencyIndex;
-            }
         }
 
         protected virtual SpectrumPointData[] CalculateSpectrumPoints(double maxValue, float[] fftBuffer)
@@ -161,25 +157,25 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
 
             double value0 = 0, value = 0;
             double lastValue = 0;
-            double actualMaxValue = maxValue;
-            int spectrumPointIndex = 0;
+            var actualMaxValue = maxValue;
+            var spectrumPointIndex = 0;
 
-            for (int i = _minimumFrequencyIndex; i <= _maximumFrequencyIndex; i++)
+            for (var i = _minimumFrequencyIndex; i <= _maximumFrequencyIndex; i++)
             {
                 switch (ScalingStrategy)
                 {
                     case ScalingStrategy.Decibel:
-                        value0 = (((20 * Math.Log10(fftBuffer[i])) - MinDbValue) / DbScale) * actualMaxValue;
+                        value0 = (20 * Math.Log10(fftBuffer[i]) - MinDbValue) / DbScale * actualMaxValue;
                         break;
                     case ScalingStrategy.Linear:
-                        value0 = (fftBuffer[i] * ScaleFactorLinear) * actualMaxValue;
+                        value0 = fftBuffer[i] * ScaleFactorLinear * actualMaxValue;
                         break;
                     case ScalingStrategy.Sqrt:
-                        value0 = ((Math.Sqrt(fftBuffer[i])) * ScaleFactorSqr) * actualMaxValue;
+                        value0 = Math.Sqrt(fftBuffer[i]) * ScaleFactorSqr * actualMaxValue;
                         break;
                 }
 
-                bool recalc = true;
+                var recalc = true;
 
                 value = Math.Max(0, Math.Max(value0, value));
 
@@ -214,7 +210,7 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
 
         protected void RaisePropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null && !String.IsNullOrEmpty(propertyName))
+            if (PropertyChanged != null && !string.IsNullOrEmpty(propertyName))
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 

@@ -57,18 +57,18 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
             if (SpectrumProvider.GetFftData(fftBuffer, this))
             {
                 //prepare the fft result for rendering
-                SpectrumPointData[] spectrumPoints = CalculateSpectrumPoints(1.0, fftBuffer);
+                var spectrumPoints = CalculateSpectrumPoints(1.0, fftBuffer);
                 using (var pen = new Pen(background, lineThickness))
                 {
-                    float currentYOffset = clipRectangle.Y + clipRectangle.Height;
+                    var currentYOffset = clipRectangle.Y + clipRectangle.Height;
 
                     //render the fft result
-                    for (int i = 0; i < spectrumPoints.Length; i++)
+                    for (var i = 0; i < spectrumPoints.Length; i++)
                     {
-                        SpectrumPointData p = spectrumPoints[i];
+                        var p = spectrumPoints[i];
 
-                        float xCoord = clipRectangle.X + xPos;
-                        float pointHeight = clipRectangle.Height / spectrumPoints.Length;
+                        var xCoord = clipRectangle.X + xPos;
+                        var pointHeight = clipRectangle.Height / spectrumPoints.Length;
 
                         //get the color based on the fft band value
                         pen.Color = _colorCalculator.GetColor((float) p.Value);
@@ -81,8 +81,10 @@ namespace FocusAcademy.Tv.Visualizer.Visualization
                         currentYOffset -= pointHeight;
                     }
                 }
+
                 return true;
             }
+
             return false;
         }
     }
