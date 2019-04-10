@@ -23,7 +23,7 @@ namespace FocusAcademy.Tv.App.Forms
         {
             if (textBox1.TextLength == 0)
             {
-                MessageBox.Show("Please enter mask", "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Enter mask", "Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                 return;
             }
@@ -32,7 +32,7 @@ namespace FocusAcademy.Tv.App.Forms
 
             if (_files.Length == 0)
             {
-                MessageBox.Show("No found files", "File", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No found", "File", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -74,6 +74,7 @@ namespace FocusAcademy.Tv.App.Forms
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
+            var flag = false;
 
             for (var i = 0; i < _files.Length; i++)
             {
@@ -88,12 +89,19 @@ namespace FocusAcademy.Tv.App.Forms
 
                 if (WaveformData.Analysis(fileName))
                 {
+                    flag = true;
+
                     backgroundWorker1.ReportProgress(i, fileName);
                 }
                 else
                 {
                     backgroundWorker1.ReportProgress(i);
                 }
+            }
+
+            if (!flag)
+            {
+                throw new Exception("Mismatched files!");
             }
         }
 
