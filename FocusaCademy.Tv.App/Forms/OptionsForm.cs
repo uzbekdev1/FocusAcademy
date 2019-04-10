@@ -20,9 +20,7 @@ namespace FocusAcademy.Tv.App.Forms
 
         private void button2_Click(object sender, System.EventArgs e)
         {
-            Settings.Default.AutoAsync = checkBox1.Checked;
             Settings.Default.SourceFolder = textBox1.Text;
-
             Settings.Default.Save();
 
             Close();
@@ -31,8 +29,6 @@ namespace FocusAcademy.Tv.App.Forms
         private void OptionsForm_Load(object sender, System.EventArgs e)
         {
             textBox1.Text = Settings.Default.SourceFolder;
-
-            checkBox1.Checked = Settings.Default.AutoAsync;
         }
     }
 }

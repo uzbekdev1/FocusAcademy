@@ -34,17 +34,5 @@ namespace FocusAcademy.Tv.App.Properties {
                 this["SourceFolder"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool AutoAsync {
-            get {
-                return ((bool)(this["AutoAsync"]));
-            }
-            set {
-                this["AutoAsync"] = value;
-            }
-        }
     }
 }

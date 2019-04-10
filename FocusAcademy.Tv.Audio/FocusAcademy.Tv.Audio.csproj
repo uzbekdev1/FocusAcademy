@@ -44,11 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileCachedSoundSource.cs" />
-    <Compile Include="InterruptDisposeChainSource.cs" />
+    <Compile Include="DisposeChainSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleAnalyzer.cs" />
-    <Compile Include="SampleDataChannel.cs" />
+    <Compile Include="WaveformAnalyzer.cs" />
+    <Compile Include="WaveformChannel.cs" />
+    <Compile Include="WaveformData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Focus Academy Tv")]
-[assembly: AssemblyDescription("Web site : https://FocusAcademy.tv/")]
+[assembly: AssemblyDescription("Focus Academy is international Academy working in the field of media development, television, press and radio training.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Focus")]
+[assembly: AssemblyCompany("Focus - https://FocusAcademy.tv/")]
 [assembly: AssemblyProduct("FocusAcademy.Tv.App")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright ©  2005")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

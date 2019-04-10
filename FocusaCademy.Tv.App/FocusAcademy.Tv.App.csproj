@@ -119,6 +119,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FocusAcademy.Tv.Audio\FocusAcademy.Tv.Audio.csproj">
+      <Project>{D5DABCB9-43A1-4117-A2DF-921BECD100F2}</Project>
+      <Name>FocusAcademy.Tv.Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FocusAcademy.Tv.Player\FocusAcademy.Tv.Player.csproj">
       <Project>{bafc8a3b-d871-4048-85cd-6b6d4505324a}</Project>
       <Name>FocusAcademy.Tv.Player</Name>

@@ -2,9 +2,9 @@
 
 namespace FocusAcademy.Tv.Audio
 {
-    public class InterruptDisposeChainSource : IWaveAggregator
+    public class DisposeChainSource : IWaveAggregator
     {
-        public InterruptDisposeChainSource(IWaveSource audioSource)
+        public DisposeChainSource(IWaveSource audioSource)
         {
             BaseSource = audioSource;
         }

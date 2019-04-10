@@ -68,6 +68,7 @@ namespace FocusAcademy.Tv.Player
                 _musicPlayer.Stop();
 
                 btnPlay.Enabled = btnStop.Enabled = btnPause.Enabled = false;
+                trackBar1.Enabled =trackbarVolume.Enabled= false;
             }
         }
 

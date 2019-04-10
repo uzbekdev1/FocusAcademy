@@ -3,6 +3,8 @@ using System.ComponentModel;
 using CSCore;
 using CSCore.Codecs;
 using CSCore.SoundOut;
+using CSCore.Streams.Effects;
+using FocusAcademy.Tv.Audio;
 
 namespace FocusAcademy.Tv.Player
 {
@@ -51,7 +53,7 @@ namespace FocusAcademy.Tv.Player
             get
             {
                 if (_soundOut != null)
-                    return Math.Min(100, Math.Max((int) (_soundOut.Volume * 100), 0));
+                    return Math.Min(100, Math.Max((int)(_soundOut.Volume * 100), 0));
                 return 100;
             }
             set
@@ -66,18 +68,19 @@ namespace FocusAcademy.Tv.Player
         {
             CleanupPlayback();
 
-            _waveSource =
-                CodecFactory.Instance.GetCodec(filename)
+            //open the selected file  
+            _waveSource = CodecFactory.Instance.GetCodec(filename)
                     .ToSampleSource()
                     .ToMono()
                     .ToWaveSource();
 
             if (WasapiOut.IsSupportedOnCurrentPlatform)
-                _soundOut = new WasapiOut {Latency = 100};
+                _soundOut = new WasapiOut { Latency = 100 };
             else
-                _soundOut = new DirectSoundOut {Latency = 100};
+                _soundOut = new DirectSoundOut { Latency = 100 };
 
             _soundOut.Initialize(_waveSource);
+
             if (PlaybackStopped != null) _soundOut.Stopped += PlaybackStopped;
         }
 

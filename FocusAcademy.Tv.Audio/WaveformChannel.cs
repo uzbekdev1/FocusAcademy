@@ -4,37 +4,37 @@ using System.Linq;
 
 namespace FocusAcademy.Tv.Audio
 {
-    public class SampleDataChannel
+    public class WaveformChannel
     {
         private readonly int _blockSize;
         private readonly List<float> _maxData = new List<float>();
         private readonly List<float> _minData = new List<float>();
-        private readonly SampleAnalyzer _sampleAnalyzer = new SampleAnalyzer();
+        private readonly WaveformAnalyzer _waveformAnalyzer = new WaveformAnalyzer();
 
-        public SampleDataChannel(int blockSize)
+        public WaveformChannel(int blockSize)
         {
             _blockSize = blockSize;
         }
 
         public void AddSample(float sample)
         {
-            _sampleAnalyzer.AddSample(sample);
+            _waveformAnalyzer.AddSample(sample);
 
-            if (_sampleAnalyzer.Counter >= _blockSize)
+            if (_waveformAnalyzer.Counter >= _blockSize)
             {
-                _minData.Add(_sampleAnalyzer.AvgMin);
-                _maxData.Add(_sampleAnalyzer.AvgMax);
+                _minData.Add(_waveformAnalyzer.AvgMin);
+                _maxData.Add(_waveformAnalyzer.AvgMax);
 
-                _sampleAnalyzer.Reset();
+                _waveformAnalyzer.Reset();
             }
         }
 
         public void Finish()
         {
-            _minData.Add(_sampleAnalyzer.AvgMin);
-            _minData.Add(_sampleAnalyzer.AvgMax);
+            _minData.Add(_waveformAnalyzer.AvgMin);
+            _minData.Add(_waveformAnalyzer.AvgMax);
 
-            _sampleAnalyzer.Reset();
+            _waveformAnalyzer.Reset();
         }
 
         public float[] GetData()

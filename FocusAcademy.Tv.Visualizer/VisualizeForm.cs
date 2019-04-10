@@ -8,6 +8,7 @@ using CSCore.DSP;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
+using FocusAcademy.Tv.Audio;
 using FocusAcademy.Tv.Visualizer.Visualization;
 
 namespace FocusAcademy.Tv.Visualizer
@@ -37,11 +38,11 @@ namespace FocusAcademy.Tv.Visualizer
         public void OpenFile(string fileName)
         {
             //open the selected file
-            ISampleSource source = CodecFactory.Instance.GetCodec(fileName)
+            var waveSource =  CodecFactory.Instance.GetCodec(fileName)
                 .ToSampleSource()
                 .AppendSource(x => new PitchShifter(x), out _pitchShifter);
 
-            SetupSampleSource(source);
+            SetupSampleSource(waveSource);
 
             //play the audio
             if (WasapiOut.IsSupportedOnCurrentPlatform)
@@ -55,7 +56,6 @@ namespace FocusAcademy.Tv.Visualizer
             timer1.Start();
 
             propertyGridTop.SelectedObject = _lineSpectrum;
-            propertyGridBottom.SelectedObject = _voicePrint3DSpectrum;
         }
 
         /// <summary>
@@ -64,6 +64,7 @@ namespace FocusAcademy.Tv.Visualizer
         private void SetupSampleSource(ISampleSource aSampleSource)
         {
             const FftSize fftSize = FftSize.Fft4096;
+
             //create a spectrum provider which provides fft data based on some input
             var spectrumProvider = new BasicSpectrumProvider(aSampleSource.WaveFormat.Channels,
                 aSampleSource.WaveFormat.SampleRate, fftSize);
@@ -90,6 +91,7 @@ namespace FocusAcademy.Tv.Visualizer
 
             //the SingleBlockNotificationStream is used to intercept the played samples
             var notificationSource = new SingleBlockNotificationStream(aSampleSource);
+
             //pass the intercepted samples as input data to the spectrumprovider (which will calculate a fft based on them)
             notificationSource.SingleBlockRead += (s, a) => spectrumProvider.Add(a.Left, a.Right);
 
@@ -144,7 +146,6 @@ namespace FocusAcademy.Tv.Visualizer
         {
             using (var g = Graphics.FromImage(_bitmap))
             {
-                pictureBoxBottom.Image = null;
                 if (_voicePrint3DSpectrum.CreateVoicePrint3D(g, new RectangleF(0, 0, _bitmap.Width, _bitmap.Height),
                     _xpos, Color.Black, 3))
                 {
@@ -153,15 +154,14 @@ namespace FocusAcademy.Tv.Visualizer
                         _xpos = 0;
                 }
 
-                pictureBoxBottom.Image = _bitmap;
             }
         }
 
         private void drawPitchShiftTool()
         {
-            var value = (int) (_pitchShifter != null
+            var value = (int)(_pitchShifter != null
                 ? Math.Log10(_pitchShifter.PitchShiftFactor) / Math.Log10(2) * 120
-                : 0); 
+                : 0);
             var trackBar = new TrackBar
             {
                 TickStyle = TickStyle.None,
@@ -174,12 +174,12 @@ namespace FocusAcademy.Tv.Visualizer
             {
                 if (_pitchShifter != null)
                 {
-                    _pitchShifter.PitchShiftFactor = (float) Math.Pow(2, trackBar.Value / 120.0);
+                    _pitchShifter.PitchShiftFactor = (float)Math.Pow(2, trackBar.Value / 120.0);
                 }
             };
 
             groupBox1.Controls.Add(trackBar);
-             
+
         }
     }
 }

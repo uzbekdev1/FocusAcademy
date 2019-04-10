@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace FocusAcademy.Tv.Audio
 {
-    public class SampleAnalyzer
+    public class WaveformAnalyzer
     {
         private readonly List<float> _neg = new List<float>();
         private readonly List<float> _pos = new List<float>();
