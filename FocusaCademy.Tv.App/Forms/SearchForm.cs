@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using FocusAcademy.Tv.App.Properties;
 using FocusAcademy.Tv.Audio;
@@ -28,7 +30,7 @@ namespace FocusAcademy.Tv.App.Forms
                 return;
             }
 
-            _files = Directory.GetFiles(Settings.Default.SourceFolder, $"*{textBox1.Text}*.mp3",SearchOption.AllDirectories);
+            _files = Directory.GetFiles(Settings.Default.SourceFolder, $"*{textBox1.Text}*.mp3", SearchOption.AllDirectories);
 
             if (_files.Length == 0)
             {
@@ -87,7 +89,7 @@ namespace FocusAcademy.Tv.App.Forms
 
                 var fileName = _files[i];
 
-                if (WaveformData.Analysis(fileName))
+                if (  WaveformData.Analysis(fileName))
                 {
                     flag = true;
 
@@ -153,6 +155,7 @@ namespace FocusAcademy.Tv.App.Forms
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            btnCancel.Enabled = false;
             backgroundWorker1.CancelAsync();
         }
     }
