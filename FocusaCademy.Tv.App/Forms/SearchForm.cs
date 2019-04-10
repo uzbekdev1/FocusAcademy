@@ -28,7 +28,7 @@ namespace FocusAcademy.Tv.App.Forms
                 return;
             }
 
-            _files = Directory.GetFiles(Settings.Default.SourceFolder, $"*{textBox1.Text}*.mp3");
+            _files = Directory.GetFiles(Settings.Default.SourceFolder, $"*{textBox1.Text}*.mp3",SearchOption.AllDirectories);
 
             if (_files.Length == 0)
             {
